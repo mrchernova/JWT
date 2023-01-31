@@ -1,6 +1,5 @@
 package com.example.jwt.controller;
 
-
 import com.example.jwt.config.AuthRequest;
 import com.example.jwt.config.AuthResponse;
 import com.example.jwt.config.JWTUtil;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 
-
 @RestController
 public class AuthenticationController {
-
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -37,11 +34,8 @@ public class AuthenticationController {
      *
      * Настраиванем какой должен быть запрос и какой ответ (config/AuthRequest.java, config/AuthResponse.java)
      *
-     *
      * Если имя и пароль верные, токен возвращается в AuthResponse, а если нет — выбрасывается исключение и на фронтенд приходит сообщение об ошибке.
-     * Фронтенд сохраняет у себя JWT-токен, и потом использует его при каждом запросе.
      *
-     * https://sysout.ru/primer-prilozheniya-s-jwt-tokenom/
      */
 
     @PostMapping("/authenticate")
@@ -54,7 +48,6 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Имя или пароль неправильны", e);
         }
-        // при создании токена в него кладется username как Subject и список authorities как кастомный claim
         String jwt = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
         return new AuthResponse(jwt);
     }
