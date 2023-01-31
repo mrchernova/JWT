@@ -43,6 +43,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
+                .and().authorizeRequests().antMatchers("/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .and().authorizeRequests().antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+}
+/**
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeRequests()
 //                .antMatchers("/authenticate").permitAll()
                 .and().authorizeRequests().antMatchers("/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .and().authorizeRequests().antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
@@ -54,3 +67,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
+ */
