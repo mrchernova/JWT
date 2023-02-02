@@ -20,8 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-//    @Autowired
-//    private JWTFilter jwtFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,14 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/authenticate").permitAll()
-                .and().authorizeRequests().antMatchers("/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .and().authorizeRequests().antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                .and().authorizeRequests().antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .and().headers().frameOptions().sameOrigin()
 //                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and().logout().permitAll().logoutSuccessUrl("/")
                 .and().httpBasic();
 
-//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
